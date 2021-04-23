@@ -47,33 +47,3 @@ class DBHandler:
         session.close()
         self.logger.debug(f'query finished')
         return ret
-
-
-if __name__ == '__main__':
-    import settings
-
-    dbh = DBHandler(settings.DBHandler.engine)
-    print(dbh.query_topic('test_1', 2000, 1))
-    print(dbh.query_passage('test_1'))
-    # dbh.insert(
-    #     Topic(
-    #         name='test_0',
-    #         year=2000,
-    #         quarter=1,
-    #         heat=100,
-    #         pnum=10,
-    #         abstract='test_0',
-    #         pic_url='test_0.com',
-    #         source='test_0'
-    #     )
-    # )
-    # dbh.insert(
-    #     Passage(
-    #         title='test_0',
-    #         abstract='test_0',
-    #         website='test_0.com',
-    #         date='2000-01-01',
-    #         url='test_0.com/test_0',
-    #         topic='test_0'
-    #     )
-    # )

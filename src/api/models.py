@@ -15,7 +15,3 @@ class Passage(BaseModel):
     website: str
     date: str
     url: str
-
-
-if __name__ == '__main__':
-    print(dir(Topic))
