@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import FastAPI
 
 import settings
@@ -14,7 +16,7 @@ def root():
     return 'see docs at: http://127.0.0.1:8000/docs'
 
 
-@app.get('/topic/', response_model=list[Topic])
+@app.get('/topic/', response_model=List[Topic])
 def query_topics(source: str, year: int, quarter: int):
     return list(
         map(
@@ -23,7 +25,7 @@ def query_topics(source: str, year: int, quarter: int):
     )
 
 
-@app.get('/passage/', response_model=list[Passage])
+@app.get('/passage/', response_model=List[Passage])
 def query_passages(topic: str):
     return list(
         map(

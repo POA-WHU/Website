@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, List
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -22,7 +22,7 @@ class DBHandler:
         self.logger.debug(f'inserted new row: {data}')
         session.close()
 
-    def query_topic(self, source: str, year: int, quarter: int) -> list[Topic]:
+    def query_topic(self, source: str, year: int, quarter: int) -> List[Topic]:
         self.logger.debug(f'started query on topics with attributes: {source, year, quarter}')
         session = self._Session()
         ret = list()
@@ -37,7 +37,7 @@ class DBHandler:
         self.logger.debug(f'query finished')
         return ret
 
-    def query_passage(self, topic: str) -> list[Passage]:
+    def query_passage(self, topic: str) -> List[Passage]:
         self.logger.debug(f'started query on passages with attributes: {topic}')
         session = self._Session()
         ret = list()
