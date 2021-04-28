@@ -15,3 +15,11 @@ class Logger:
 
 class DBHandler:
     engine = f'sqlite:///{Path.project}\\db.sqlite3'
+
+
+class App:
+    class CORS:
+        origins = ['*']
+        credentials = True
+        methods = ['*']
+        headers = ['*']

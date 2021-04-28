@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 import settings
 from api.models import Topic, Passage
@@ -8,6 +9,13 @@ from database import DBHandler
 from utils import trans_model
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.App.CORS.origins,
+    allow_credentials=settings.App.CORS.credentials,
+    allow_methods=settings.App.CORS.methods,
+    allow_headers=settings.App.CORS.headers,
+)
 db_handler = DBHandler(settings.DBHandler.engine)
 
 
