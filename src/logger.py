@@ -1,5 +1,5 @@
 import logging
-import settings
+from src import settings
 
 
 class Logger(logging.Logger):

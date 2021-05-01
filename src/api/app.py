@@ -3,10 +3,10 @@ from typing import List
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-import settings
-from api.models import Topic, Passage
-from database import DBHandler
-from utils import trans_model
+from src import settings
+from src.api.models import Topic, Passage
+from src.database import DBHandler
+from src.utils import trans_model
 
 app = FastAPI()
 app.add_middleware(
@@ -25,18 +25,28 @@ def root():
 
 
 @app.get('/topic/', response_model=List[Topic])
-def query_topics(source: str, year: int, quarter: int):
+def query_topics(source: str = None, year: int = None, quarter: int = None):
+    kwargs = dict()
+    if source:
+        kwargs['source'] = source
+    if year:
+        kwargs['year'] = year
+    if quarter:
+        kwargs['quarter'] = quarter
     return list(
         map(
-            trans_model, db_handler.query_topic(source, year, quarter)
+            trans_model, db_handler.query_topic(**kwargs)
         )
     )
 
 
 @app.get('/passage/', response_model=List[Passage])
-def query_passages(topic: str):
+def query_passages(topic: str = None):
+    kwargs = dict()
+    if topic:
+        kwargs['topic'] = topic
     return list(
         map(
-            trans_model, db_handler.query_passage(topic)
+            trans_model, db_handler.query_passage(**kwargs)
         )
     )

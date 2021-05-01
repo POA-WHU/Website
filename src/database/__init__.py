@@ -1,2 +1,2 @@
-from database.db_handler import DBHandler
-from database.models import Topic, Passage
+from src.database.db_handler import DBHandler
+from src.database.models import Topic, Passage

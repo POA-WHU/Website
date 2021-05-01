@@ -3,8 +3,8 @@ from typing import Union, List
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from logger import Logger
-from database.models import Base, Topic, Passage
+from src.logger import Logger
+from src.database.models import Base, Topic, Passage
 
 
 class DBHandler:
@@ -22,28 +22,30 @@ class DBHandler:
         self.logger.debug(f'inserted new row: {data}')
         session.close()
 
-    def query_topic(self, source: str, year: int, quarter: int) -> List[Topic]:
-        self.logger.debug(f'started query on topics with attributes: {source, year, quarter}')
+    def query_topic(self, **kwargs) -> List[Topic]:
+        self.logger.debug(f'started query on topics with attributes: {kwargs}')
         session = self._Session()
         ret = list()
-        for i in session.query(Topic).filter_by(
-            source=source,
-            year=year,
-            quarter=quarter
-        ):
+        for i in session.query(Topic).filter_by(**kwargs):
             ret.append(i)
         session.expunge_all()
         session.close()
         self.logger.debug(f'query finished')
         return ret
 
-    def query_passage(self, topic: str) -> List[Passage]:
-        self.logger.debug(f'started query on passages with attributes: {topic}')
+    def query_passage(self, **kwargs) -> List[Passage]:
+        self.logger.debug(f'started query on passages with attributes: {kwargs}')
         session = self._Session()
         ret = list()
-        for i in session.query(Passage).filter_by(topic=topic):
+        for i in session.query(Passage).filter_by(**kwargs):
             ret.append(i)
         session.expunge_all()
         session.close()
         self.logger.debug(f'query finished')
         return ret
+
+
+if __name__ == '__main__':
+    from src import settings
+    db_h = DBHandler(settings.DBHandler.engine)
+    print(db_h.query_topic(source='test'))

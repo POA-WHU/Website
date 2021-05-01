@@ -1,1 +1,1 @@
-from api.models import Topic, Passage
+from src.api.models import Topic, Passage
