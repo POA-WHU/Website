@@ -5,6 +5,7 @@ import logging
 class Path:
     src = pathlib.Path(__file__).absolute().parent
     project = src.parent
+    data = project / 'data'
     app = 'api.app:app'
 
 
