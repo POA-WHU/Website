@@ -4,9 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src import settings
-from src.api.models import Topic, Passage
 from src.database import DBHandler
-from src.utils import trans_model
 
 app = FastAPI()
 app.add_middleware(
@@ -29,14 +27,16 @@ def query_topics(
         p_num=None,
         abstract=None,
         pic_url=None,
-        source=None
+        source=None,
+        page: int = None
 ):
     para_dict = locals()
+    del para_dict['page']
     for i in list(para_dict.keys()):
         if para_dict[i] is None:
             del para_dict[i]
 
-    return db_handler.query_topic(**para_dict)
+    return db_handler.query_topic(**para_dict)[10 * (page - 1): 10 * page]
 
 
 @app.get('/passage/')
@@ -49,11 +49,29 @@ def query_passages(
         website=None,
         url=None,
         topic=None,
-        source=None
+        source=None,
+        page: int = None
+
 ):
+    page -= 1
     para_dict = locals()
+    del para_dict['page']
     for i in list(para_dict.keys()):
         if para_dict[i] is None:
             del para_dict[i]
 
-    return db_handler.query_passage(**para_dict)
+    return db_handler.query_passage(**para_dict)[10 * (page - 1): 10 * page]
+
+
+@app.get('/heat/')
+def query_heat(
+        name=None
+):
+    years = [2018, 2019, 2020]
+    quarters = [1, 2, 3, 4]
+    ret = []
+    print(name)
+    for y in years:
+        for q in quarters:
+            ret.append(db_handler.query_topic(name=name, year=y, quarter=q)[0].heat)
+    return ret
