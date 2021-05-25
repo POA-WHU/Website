@@ -12,7 +12,7 @@ class Topic(Base):
     year = Column(INTEGER)
     quarter = Column(INTEGER)
     heat = Column(INTEGER)
-    pnum = Column(INTEGER)
+    p_num = Column(INTEGER)
     abstract = Column(TEXT)
     pic_url = Column(TEXT)
     source = Column(TEXT)
@@ -25,11 +25,13 @@ class Passage(Base):
     __tablename__ = 'passages'
     id = Column(INTEGER, primary_key=True)
     title = Column(TEXT)
+    date = Column(TEXT)
+    content = Column(TEXT)
     abstract = Column(TEXT)
     website = Column(TEXT)
-    date = Column(TEXT)
     url = Column(TEXT)
     topic = Column(TEXT)
+    source = Column(TEXT)
 
     def __repr__(self):
         return f'Topic<name={self.title}>'

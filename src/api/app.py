@@ -19,34 +19,41 @@ app.add_middleware(
 db_handler = DBHandler(settings.DBHandler.engine)
 
 
-@app.get('/')
-def root():
-    return 'see docs at: http://127.0.0.1:8000/docs'
+@app.get('/topic/')
+def query_topics(
+        id=None,
+        name=None,
+        year=None,
+        quarter=None,
+        heat=None,
+        p_num=None,
+        abstract=None,
+        pic_url=None,
+        source=None
+):
+    para_dict = locals()
+    for i in list(para_dict.keys()):
+        if para_dict[i] is None:
+            del para_dict[i]
+
+    return db_handler.query_topic(**para_dict)
 
 
-@app.get('/topic/', response_model=List[Topic])
-def query_topics(source: str = None, year: int = None, quarter: int = None):
-    kwargs = dict()
-    if source:
-        kwargs['source'] = source
-    if year:
-        kwargs['year'] = year
-    if quarter:
-        kwargs['quarter'] = quarter
-    return list(
-        map(
-            trans_model, db_handler.query_topic(**kwargs)
-        )
-    )
+@app.get('/passage/')
+def query_passages(
+        id=None,
+        title=None,
+        data=None,
+        content=None,
+        abstract=None,
+        website=None,
+        url=None,
+        topic=None,
+        source=None
+):
+    para_dict = locals()
+    for i in list(para_dict.keys()):
+        if para_dict[i] is None:
+            del para_dict[i]
 
-
-@app.get('/passage/', response_model=List[Passage])
-def query_passages(topic: str = None):
-    kwargs = dict()
-    if topic:
-        kwargs['topic'] = topic
-    return list(
-        map(
-            trans_model, db_handler.query_passage(**kwargs)
-        )
-    )
+    return db_handler.query_passage(**para_dict)
