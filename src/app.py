@@ -1,5 +1,3 @@
-from typing import List
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -36,14 +34,15 @@ def query_topics(
         if para_dict[i] is None:
             del para_dict[i]
 
-    return db_handler.query_topic(**para_dict)[10 * (page - 1): 10 * page]
+    all_topics = db_handler.query_topic(**para_dict)
+    return all_topics[10 * (page - 1): 10 * page], len(all_topics)
 
 
 @app.get('/passage/')
 def query_passages(
         id=None,
         title=None,
-        data=None,
+        date=None,
         content=None,
         abstract=None,
         website=None,
@@ -53,14 +52,15 @@ def query_passages(
         page: int = None
 
 ):
-    page -= 1
-    para_dict = locals()
+    para_dict = locals().copy()
     del para_dict['page']
     for i in list(para_dict.keys()):
         if para_dict[i] is None:
             del para_dict[i]
 
-    return db_handler.query_passage(**para_dict)[10 * (page - 1): 10 * page]
+    all_passages = db_handler.query_passage(**para_dict)
+
+    return all_passages[10 * (page - 1): 10 * page], len(all_passages)
 
 
 @app.get('/heat/')
@@ -69,9 +69,9 @@ def query_heat(
 ):
     years = [2018, 2019, 2020]
     quarters = [1, 2, 3, 4]
-    ret = []
+    heats = []
     print(name)
     for y in years:
         for q in quarters:
-            ret.append(db_handler.query_topic(name=name, year=y, quarter=q)[0].heat)
-    return ret
+            heats.append(db_handler.query_topic(name=name, year=y, quarter=q)[0].heat)
+    return heats

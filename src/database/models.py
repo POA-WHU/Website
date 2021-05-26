@@ -34,4 +34,4 @@ class Passage(Base):
     source = Column(TEXT)
 
     def __repr__(self):
-        return f'Topic<name={self.title}>'
+        return f'Passage<name={self.title}>'

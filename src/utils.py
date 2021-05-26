@@ -1,7 +1,7 @@
-import os
+import uvicorn
 
-import settings
+from app import app
 
 
 def run_server():
-    os.system(f'uvicorn {settings.Path.app} --reload')
+    uvicorn.run(app)
