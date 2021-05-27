@@ -5,8 +5,8 @@ from src import settings
 from src.database.db_handler import DBHandler
 from src.database.models import Passage, Topic
 
-SRC_FILE = settings.Path.data / 'think_tank_clust.xlsx'
-SOURCE = 'think_tank'
+SRC_FILE = settings.Path.data / 'media_cluster_addpic.xlsx'
+SOURCE = 'media'
 
 df = pd.read_excel(SRC_FILE)
 handler = DBHandler(settings.DBHandler.engine)
@@ -20,9 +20,10 @@ for _, row in tqdm(df.iterrows()):
             abstract=row['abstract'],
             website=row['group'],
             date=row['date'].to_pydatetime().date(),
-            content = row['content'],
+            content=row['content'],
             url=row['url'],
             topic=row['clusted_label'],
+            pic_url=row['pic_url'],
             source=SOURCE
         )
     )
