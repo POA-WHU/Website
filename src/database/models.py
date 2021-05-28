@@ -8,6 +8,7 @@ Base = declarative_base()
 class Topic(Base):
     __tablename__ = 'topics'
     id = Column(INTEGER, primary_key=True)
+    topic_id = Column(INTEGER)
     name = Column(TEXT)
     year = Column(INTEGER)
     quarter = Column(INTEGER)

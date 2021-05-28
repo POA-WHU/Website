@@ -12,6 +12,7 @@ class DBHandler:
         self.logger = Logger(self.__class__.__name__)
         engine = create_engine(engine_url)
         self._Session = sessionmaker(bind=engine)
+        self.session = self._Session()
         Base.metadata.create_all(engine)
 
     def insert(self, data: Union[Topic, Passage]):

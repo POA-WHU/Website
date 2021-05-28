@@ -68,7 +68,7 @@ def query_passages(
 
 @app.get('/heat/')
 def query_heat(
-        id: int
+        topic_id: int
 ):
     years = [2018, 2019, 2020]
     quarters = [1, 2, 3, 4]
@@ -76,7 +76,7 @@ def query_heat(
     for y in years:
         for q in quarters:
             try:
-                topic = db_handler.query_topic(id=id, year=y, quarter=q)[0]
+                topic = db_handler.query_topic(topic_id=topic_id, year=y, quarter=q)[0]
                 heats_and_names.append((topic.heat, topic.name))
             except IndexError:
                 heats_and_names.append((0, ''))
