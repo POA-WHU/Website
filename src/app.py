@@ -71,8 +71,10 @@ def query_heat(
     years = [2018, 2019, 2020]
     quarters = [1, 2, 3, 4]
     heats = []
-    print(name)
     for y in years:
         for q in quarters:
-            heats.append(db_handler.query_topic(name=name, year=y, quarter=q)[0].heat)
+            try:
+                heats.append(db_handler.query_topic(name=name, year=y, quarter=q)[0].heat)
+            except IndexError:
+                heats.append(0)
     return heats
