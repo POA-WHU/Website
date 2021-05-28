@@ -5,7 +5,8 @@ from src import settings
 from src.database.db_handler import DBHandler
 from src.database.models import Passage, Topic
 
-SRC_FILE = settings.Path.data / 'think_tank_year_result.xlsx'
+
+SRC_FILE = settings.Path.data / 'media_year_result.xlsx'
 SOURCE = 'topic'
 
 df = pd.read_excel(SRC_FILE)
@@ -30,7 +31,7 @@ for _, row in tqdm(df.iterrows()):
     try:
         handler.insert(
             Topic(
-                topic_id = row['topic_id'],
+                topic_id=row['topic_id'],
                 name=row['name'],
                 year=row['year'][1: 5],
                 quarter=row['quarter'],
@@ -44,6 +45,7 @@ for _, row in tqdm(df.iterrows()):
     except TypeError:
         handler.insert(
             Topic(
+                topic_id=row['topic_id'],
                 name=row['name'],
                 year=row['year'],
                 quarter=row['quarter'],

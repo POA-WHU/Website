@@ -10,7 +10,7 @@ from src.database.models import Passage, Topic
 handler = DBHandler(settings.DBHandler.engine)
 
 passages = handler.query_passage()
-session = handler._Session()
+session = handler.session
 topics = session.query(Topic).filter_by()
 
 for i in tqdm(topics):
