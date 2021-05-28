@@ -35,6 +35,7 @@ def query_topics(
             del para_dict[i]
 
     all_topics = db_handler.query_topic(**para_dict)
+    all_topics = sorted(all_topics, key=lambda x: x.heat, reverse=True)
     return all_topics[10 * (page - 1): 10 * page], len(all_topics)
 
 
