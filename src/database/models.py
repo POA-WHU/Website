@@ -33,6 +33,9 @@ class Passage(Base):
     topic = Column(TEXT)
     source = Column(TEXT)
     pic_url = Column(TEXT)
+    year = Column(INTEGER)
+    quarter = Column(INTEGER)
 
     def __repr__(self):
         return f'Passage<name={self.title}>'
+

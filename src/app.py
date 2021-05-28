@@ -50,6 +50,8 @@ def query_passages(
         url=None,
         topic=None,
         source=None,
+        year: int = None,
+        quarter: int = None,
         page: int = None
 
 ):
@@ -60,7 +62,7 @@ def query_passages(
             del para_dict[i]
 
     all_passages = db_handler.query_passage(**para_dict)
-
+    all_passages = sorted(all_passages, key=lambda x: x.date, reverse=True)
     return all_passages[10 * (page - 1): 10 * page], len(all_passages)
 
 
@@ -70,11 +72,12 @@ def query_heat(
 ):
     years = [2018, 2019, 2020]
     quarters = [1, 2, 3, 4]
-    heats = []
+    heats_and_names = []
     for y in years:
         for q in quarters:
             try:
-                heats.append(db_handler.query_topic(id=id, year=y, quarter=q)[0].heat)
+                topic = db_handler.query_topic(id=id, year=y, quarter=q)[0]
+                heats_and_names.append((topic.heat, topic.name))
             except IndexError:
-                heats.append(0)
-    return heats
+                heats_and_names.append((0, ''))
+    return heats_and_names
