@@ -7,7 +7,7 @@ from src.database.models import Passage, Topic
 
 
 SRC_FILE = settings.Path.data / 'media_year_result.xlsx'
-SOURCE = 'topic'
+SOURCE = 'think_tank'
 
 df = pd.read_excel(SRC_FILE)
 handler = DBHandler(settings.DBHandler.engine)
@@ -24,7 +24,7 @@ for _, row in tqdm(df.iterrows()):
     #         content=row['content'],
     #         url=row['url'],
     #         topic=row['clusted_label'],
-    #         pic_url=row['pic_url'],
+    #         pic_url=None,
     #         source=SOURCE
     #     )
     # )
