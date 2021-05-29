@@ -60,6 +60,8 @@ def query_passages(
     for i in list(para_dict.keys()):
         if para_dict[i] is None:
             del para_dict[i]
+        if i == 'quarter' and para_dict[i] == 0:
+            del para_dict[i]
 
     all_passages = db_handler.query_passage(**para_dict)
     all_passages = sorted(all_passages, key=lambda x: x.date, reverse=True)
@@ -68,7 +70,8 @@ def query_passages(
 
 @app.get('/heat/')
 def query_heat(
-        topic_id: int
+        topic_id: int,
+        source: str
 ):
     years = [2018, 2019, 2020]
     quarters = [1, 2, 3, 4]
@@ -76,7 +79,7 @@ def query_heat(
     for y in years:
         for q in quarters:
             try:
-                topic = db_handler.query_topic(topic_id=topic_id, year=y, quarter=q)[0]
+                topic = db_handler.query_topic(topic_id=topic_id, year=y, quarter=q, source=source)[0]
                 heats_and_names.append((topic.heat, topic.name))
             except IndexError:
                 heats_and_names.append((0, ''))

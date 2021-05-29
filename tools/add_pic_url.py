@@ -15,7 +15,7 @@ topics = session.query(Topic).filter_by()
 
 for i in tqdm(topics):
     for j in passages:
-        if int(j.topic) == i.id:
+        if int(j.topic) == i.topic_id and j.pic_url is not None:
             i.pic_url = j.pic_url
             break
 
